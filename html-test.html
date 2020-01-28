@@ -1,32 +1,3 @@
-const colors = {
-  green: {
-    wrapperBackground: "#E6E1C3",
-    headerBackground: "#C1C72C",
-    headerColor: "black",
-    photoBorderColor: "#black"
-  },
-  blue: {
-    wrapperBackground: "#5F64D3",
-    headerBackground: "#26175A",
-    headerColor: "white",
-    photoBorderColor: "#73448C"
-  },
-  pink: {
-    wrapperBackground: "#879CDF",
-    headerBackground: "#FF8374",
-    headerColor: "white",
-    photoBorderColor: "#FEE24C"
-  },
-  red: {
-    wrapperBackground: "#DE9967",
-    headerBackground: "#870603",
-    headerColor: "white",
-    photoBorderColor: "white"
-  }
-};
-
-function generateHTML(data) {
-  return `<!DOCTYPE html>
 <html lang="en">
    <head>
       <meta charset="UTF-8" />
@@ -52,7 +23,7 @@ function generateHTML(data) {
          height: 100%;
          }
          .wrapper {
-         background-color: ${colors[data.color].wrapperBackground};
+         background-color: #E6E1C3;
          padding-top: 100px;
          }
          body {
@@ -94,8 +65,8 @@ function generateHTML(data) {
          display: flex;
          justify-content: center;
          flex-wrap: wrap;
-         background-color: ${colors[data.color].headerBackground};
-         color: ${colors[data.color].headerColor};
+         background-color: #C1C72C;
+         color: black;
          padding: 10px;
          width: 95%;
          border-radius: 6px;
@@ -106,7 +77,7 @@ function generateHTML(data) {
          border-radius: 50%;
          object-fit: cover;
          margin-top: -75px;
-         border: 6px solid ${colors[data.color].photoBorderColor};
+         border: 6px solid black;
          box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
          }
          .photo-header h1, .photo-header h2 {
@@ -145,19 +116,18 @@ function generateHTML(data) {
            margin-top: 20px;
            margin-bottom: 20px;
          }
-
          h3.center {
-          text-align: center;
-          display: block;
-          margin-right: auto;
-          margin-left: auto;
+             text-align: center;
+             display: block;
+             margin-right: auto;
+             margin-left: auto;
          }
 
          .card {
            padding: 20px;
            border-radius: 6px;
-           background-color: ${colors[data.color].headerBackground};
-           color: ${colors[data.color].headerColor};
+           background-color: #C1C72C;
+           color: black;
            margin: 20px;
            text-align: center;
            width: 45%;
@@ -180,7 +150,58 @@ function generateHTML(data) {
           } 
          }
       </style>
-    </head> 
-      
-      `
-        }
+    </head>
+<body>
+
+    <div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="photo-header">
+                <img src="#">
+                <h1>Hi!<br>My name is is !</h1>
+                <h3>Bio - I'm currently studying</h3>
+                <p>&nbsp;</p>
+                <h4>Location</h4>
+                <h4>Github</h4>
+                <h4>Blog</h4>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                    <h3 class="center">I build things and teach people to code.</h3>
+            </div>
+
+            <div class="row">
+                <div class="card">
+                    <h3>Public Repositories</h3>
+                    <h4>100</h4>
+                </div> 
+                <div class="card">
+                    <h3>Followers</h3>
+                    <h4>100</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="card">
+                    <h3>GitHub Stars</h3>
+                    <h4>100</h4>
+                </div> 
+                <div class="card">
+                    <h3>Following</h3>
+                    <h4>100</h4>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+        
+
+</body>
+</html>
