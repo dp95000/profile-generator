@@ -157,13 +157,13 @@
     <div class="container">
         <div class="row">
             <div class="photo-header">
-                <img src="#">
-                <h1>Hi!<br>My name is is !</h1>
-                <h3>Bio - I'm currently studying</h3>
+                <img src="${data.avatar}">
+                <h1>Hi!<br>My name is is ${data.myName}!</h1>
+                <h3>${data.avatar}</h3>
                 <p>&nbsp;</p>
-                <h4>Location</h4>
-                <h4>Github</h4>
-                <h4>Blog</h4>
+                <h4><a href="${data.location}">Location</a></h4>
+                <h4><a href="${data.url}">Github</a></h4>
+                <h4><a href="${data.blog}">Blog</a></h4>
             </div>
         </div>
 
@@ -179,22 +179,22 @@
             <div class="row">
                 <div class="card">
                     <h3>Public Repositories</h3>
-                    <h4>100</h4>
+                    <h4>${data.repos}</h4>
                 </div> 
                 <div class="card">
                     <h3>Followers</h3>
-                    <h4>100</h4>
+                    <h4>${data.followers}</h4>
                 </div>
             </div>
 
             <div class="row">
                 <div class="card">
                     <h3>GitHub Stars</h3>
-                    <h4>100</h4>
+                    <h4>${data.stars}</h4>
                 </div> 
                 <div class="card">
                     <h3>Following</h3>
-                    <h4>100</h4>
+                    <h4>${data.following}</h4>
                 </div>
             </div>
 
