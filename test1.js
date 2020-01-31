@@ -1,12 +1,17 @@
-const fs = require("fs");
 const axios = require("axios");
+const open = require("open");
 const inquirer = require("inquirer");
 const questions = ['Enter your GitHub username', "What is your favorite color?"];
-const util = require("util");
-const writeFileAsync = util.promisify(fs.writeFile);
+
+const fs = require('fs'),
+    convertFactory = require('electron-html-to');
+ 
+const conversion = convertFactory({
+  converterPath: convertFactory.converters.PDF
+});
 
 
-async function promptUser() {
+function promptUser() {
     return inquirer.prompt([
         {
             type: "input",
@@ -27,25 +32,25 @@ async function promptUser() {
             color
         } = data;
         console.log(data);
-        return getGihubInfo(username, color)
+        getGihubInfo(username, color)
     }).catch(err => console.log(err))
   }
 
   function getGihubInfo(username, color) {
     const queryUrl = `https://api.github.com/users/${username}`;
-    return axios.get(queryUrl).then(res => {
+    axios.get(queryUrl).then(res => {
       // console.log(res.data);
-      // console.log(res.data.name);
-      // console.log(res.data.html_url);
-      //console.log(res.data.blog);
-      // console.log(res.data.location);
-     //  console.log(res.data.bio);
-      // console.log(res.data.avatar_url);
+       console.log(res.data.name);
+       console.log(res.data.html_url);
+       console.log(res.data.blog);
+       console.log(res.data.location);
+       console.log(res.data.bio);
+       console.log(res.data.avatar_url);
 
-     //  console.log(res.data.public_repos);
-     //  console.log(res.data.followers);
-      // console.log(res.data.following);
-     //  console.log(res.data.starred_url);
+       console.log(res.data.public_repos);
+       console.log(res.data.followers);
+       console.log(res.data.following);
+       console.log(res.data.starred_url);
 
        let myName = res.data.name;
        let url = res.data.html_url;
@@ -85,15 +90,13 @@ async function promptUser() {
           photoBorderColor: "white"
         }
       };
-     
       const html = generateHTML(res, colors[color]);
-      return html;
-     // console.log(html);
+      console.log(html);
     });
 };
 
 function generateHTML(res, colors) {
-    return `<!DOCTYPE html>
+    return conversion({html: `<!DOCTYPE html>
   <html lang="en">
      <head>
         <meta charset="UTF-8" />
@@ -257,7 +260,7 @@ function generateHTML(res, colors) {
                   <div class="photo-header">
                       <img src="${res.data.avatar_url}">
                       <h1>Hi!<br>My name is is ${res.data.name}!</h1>
-                      <h4>${res.data.bio}</h4>
+                      <h3>${res.data.bio}</h3>
                       <p>&nbsp;</p>
                       <h4><a href="${res.data.location}">Location</a>${res.data.location}</h4>
                       <h4><a href="${res.data.url}">Github</a></h4>
@@ -301,13 +304,24 @@ function generateHTML(res, colors) {
   
       </body>
       </html> 
-        `
+        `}, function(err, result) {
+            if (err) {
+              return console.error(err);
+            }
+           
+            console.log(result.numberOfPages);
+            console.log(result.logs);
+            result.stream.pipe(fs.createWriteStream('/path/to/anywhere.pdf'));
+            conversion.kill(); // necessary if you use the electron-server strategy, see bellow for details
+          });
+          open(path.join(process.cwd(), '/exported_profiles/profile.pdf'));
           }
 
           async function init() {
             console.log("hi")
             try {
-              const html = await promptUser();
+              const answers = await promptUser();
+              const html = generateHTML(answers);
               await writeFileAsync("profile.html", html);
               console.log("Successfully wrote to profile.html");
             } catch(err) {
