@@ -256,12 +256,12 @@ function generateHTML(res, colors) {
               <div class="row">
                   <div class="photo-header">
                       <img src="${res.data.avatar_url}">
-                      <h1>Hi!<br>My name is is ${res.data.name}!</h1>
-                      <h4>${res.data.bio}</h4>
+                      <h1>Hi!<br>My name is ${res.data.name}!</h1>
+                      <h5>${res.data.bio}</h5>
                       <p>&nbsp;</p>
-                      <h4><a href="${res.data.location}">Location</a>${res.data.location}</h4>
-                      <h4><a href="${res.data.url}">Github</a></h4>
-                      <h4><a href="${res.data.blog}">Blog</a></h4>
+                      <h4><a href="${res.data.location}">Location: ${res.data.location}</a></h4>
+                      <h4><a href="${res.data.url}"> Github</a></h4>
+                      <h4><a href="${res.data.blog}"> Blog</a></h4>
                   </div>
               </div>
       
