@@ -25,11 +25,11 @@ function promptUser() {
             color
         } = data;
         console.log(data);
-        getGihubInfo(username)
+        getGihubInfo(username, color)
     }).catch(err => console.log(err))
   }
 
-  function getGihubInfo(username) {
+  function getGihubInfo(username, color) {
     const queryUrl = `https://api.github.com/users/${username}`;
     axios.get(queryUrl).then(res => {
       // console.log(res.data);
@@ -83,11 +83,12 @@ function promptUser() {
           photoBorderColor: "white"
         }
       };
-
+      const html = generateHTML(res, colors[color]);
+      console.log(html);
     });
 };
 
-function generateHTML(data) {
+function generateHTML(res, colors) {
     return `<!DOCTYPE html>
   <html lang="en">
      <head>
@@ -114,7 +115,7 @@ function generateHTML(data) {
            height: 100%;
            }
            .wrapper {
-           background-color: ${colors[data.color].wrapperBackground};
+           background-color: ${colors.wrapperBackground};
            padding-top: 100px;
            }
            body {
@@ -156,8 +157,8 @@ function generateHTML(data) {
            display: flex;
            justify-content: center;
            flex-wrap: wrap;
-           background-color: ${colors[data.color].headerBackground};
-           color: ${colors[data.color].headerColor};
+           background-color: ${colors.headerBackground};
+           color: ${colors.headerColor};
            padding: 10px;
            width: 95%;
            border-radius: 6px;
@@ -168,7 +169,7 @@ function generateHTML(data) {
            border-radius: 50%;
            object-fit: cover;
            margin-top: -75px;
-           border: 6px solid ${colors[data.color].photoBorderColor};
+           border: 6px solid ${colors.photoBorderColor};
            box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
            }
            .photo-header h1, .photo-header h2 {
@@ -218,8 +219,8 @@ function generateHTML(data) {
            .card {
              padding: 20px;
              border-radius: 6px;
-             background-color: ${colors[data.color].headerBackground};
-             color: ${colors[data.color].headerColor};
+             background-color: ${colors.headerBackground};
+             color: ${colors.headerColor};
              margin: 20px;
              text-align: center;
              width: 45%;
@@ -250,13 +251,13 @@ function generateHTML(data) {
           <div class="container">
               <div class="row">
                   <div class="photo-header">
-                      <img src="${data.avatar}">
-                      <h1>Hi!<br>My name is is ${data.myName}!</h1>
-                      <h3>${data.avatar}</h3>
+                      <img src="${res.data.avatar}">
+                      <h1>Hi!<br>My name is is ${res.data.myName}!</h1>
+                      <h3>${res.data.avatar}</h3>
                       <p>&nbsp;</p>
-                      <h4><a href="${data.location}">Location</a></h4>
-                      <h4><a href="${data.url}">Github</a></h4>
-                      <h4><a href="${data.blog}">Blog</a></h4>
+                      <h4><a href="${res.data.location}">Location</a></h4>
+                      <h4><a href="${res.data.url}">Github</a></h4>
+                      <h4><a href="${res.data.blog}">Blog</a></h4>
                   </div>
               </div>
       
@@ -272,22 +273,22 @@ function generateHTML(data) {
                   <div class="row">
                       <div class="card">
                           <h3>Public Repositories</h3>
-                          <h4>${data.repos}</h4>
+                          <h4>${res.data.repos}</h4>
                       </div> 
                       <div class="card">
                           <h3>Followers</h3>
-                          <h4>${data.followers}</h4>
+                          <h4>${res.data.followers}</h4>
                       </div>
                   </div>
       
                   <div class="row">
                       <div class="card">
                           <h3>GitHub Stars</h3>
-                          <h4>${data.stars}</h4>
+                          <h4>${res.data.stars}</h4>
                       </div> 
                       <div class="card">
                           <h3>Following</h3>
-                          <h4>${data.following}</h4>
+                          <h4>${res.data.following}</h4>
                       </div>
                   </div>
       
@@ -299,5 +300,16 @@ function generateHTML(data) {
         `
           }
 
-promptUser();
-generateHTML();
+          async function init() {
+            console.log("hi")
+            try {
+              const answers = await promptUser();
+              const html = generateHTML(answers);
+              await writeFileAsync("profile.html", html);
+              console.log("Successfully wrote to profile.html");
+            } catch(err) {
+              console.log(err);
+            }
+          }
+init();
+
